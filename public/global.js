@@ -1,13 +1,27 @@
 const currentVersion = "v1.5.4";
 
-function populateTextSectionContent() {
+window.populateTextSectionContent = function() {
   //Will strip template html of html tags leaving inner content for the template text field
-  const htmlString = window.codeMirrorEditor.getValue().trim();
+  const htmlString = tinymce.get("codeMirror").getContent().trim();
   const textContent = $(htmlString).not('style').text().replace(/\s\s+/g, ' ').trim();
   const $templateText = $('#templateText');
   $templateText.val(textContent);
   $templateText.trigger('input'); // we need this event triggered to enable the update button (just as if someone was to type in this input).
-}
+};
+
+window.initHtml = function() {
+  tinymce.init({
+    selector: '#codeMirror',
+    plugins: [
+      'a11ychecker','advlist','advcode','advtable','autolink','checklist','export',
+      'lists','link','image','charmap','preview','anchor','searchreplace','visualblocks',
+      'powerpaste','fullscreen','formatpainter','insertdatetime','media','table','help','wordcount'
+    ],
+    toolbar: 'undo redo | formatpainter casechange blocks | bold italic backcolor | ' +
+      'alignleft aligncenter alignright alignjustify | ' +
+      'bullist numlist checklist outdent indent | removeformat | a11ycheck code table help'
+  });
+};
 
 (async function () {
   const versionChecked = sessionStorage.getItem('versionChecked');

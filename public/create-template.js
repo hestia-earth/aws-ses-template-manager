@@ -4,10 +4,7 @@ $(document).ready(function(){
   const urlParams = new URLSearchParams(window.location.search);
   window.history.replaceState({}, document.title, "/create-template");  // clean the url search params from the URL
 
-  window.codeMirrorEditor = window.CodeMirror.fromTextArea(document.querySelector('#codeMirror'), {
-    mode: "htmlmixed",
-    lineNumbers: true
-  });
+  window.initHtml();
 
   if (urlParams.has('d-origin')) {
     // we need to load the existing template from which we will duplicate
@@ -15,7 +12,8 @@ $(document).ready(function(){
       $('#templateName').val(urlParams.get('d-name'));
       $('#templateSubject').val(response.data.SubjectPart);
       $('#templateText').val(response.data.TextPart);
-      window.codeMirrorEditor.setValue(response.data.HtmlPart ? response.data.HtmlPart : "");
+      $('#codeMirror').val(response.data.HtmlPart || "");
+      window.initHtml();
     });
   }
 
@@ -25,7 +23,7 @@ $(document).ready(function(){
 
     const createPayload = {
       "TemplateName": $('#templateName').val(),
-      "HtmlPart": window.codeMirrorEditor.getValue(),
+      "HtmlPart": tinymce.get("codeMirror").getContent(),
       "SubjectPart": $('#templateSubject').val(),
       "TextPart": $('#templateText').val(),
       "region": localStorage.getItem('region')
