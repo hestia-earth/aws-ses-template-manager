@@ -16,14 +16,8 @@ $(document).ready(function(){
       $('#templateSubject').val(response.data.SubjectPart);
       $('#templateText').val(response.data.TextPart);
       window.codeMirrorEditor.setValue(response.data.HtmlPart ? response.data.HtmlPart : "");
-      $('#createTemplateForm').trigger('change'); //enable the save button
     });
   }
-
-  // observe any changes to the form. If so, then enable the create btn
-  $('#createTemplateForm').on('input', () => {
-    $('#createTemplateForm button').attr('disabled', false);
-  });
 
   // handle form submissions
   $('#createTemplateForm').submit(function(e) {

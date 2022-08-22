@@ -22,10 +22,6 @@ $(document).ready(() => {
     window.codeMirrorEditor.refresh();  //must be called to re draw the code editor
   });
 
-  $('#updateTemplateForm').on('input', () => {
-    $('#updateTemplateForm button').attr('disabled', false);
-  });
-
 
   $('#updateTemplateForm').submit(function(e){
     e.preventDefault();
